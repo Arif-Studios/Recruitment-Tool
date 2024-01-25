@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const JobOthersSchema = mongoose.Schema(
   {
-    jobId: { type: String, require },
+    jobId: { type: String, required: true },
     aboutcom: { type: String },
-    numOfposi: { type: Number, require },
+    numOfposi: { type: Number, required: true },
     benefits: { type: String },
     addiInfo: { type: String },
   },
@@ -13,5 +13,5 @@ const JobOthersSchema = mongoose.Schema(
   }
 );
 
-const JobOther = mongoose.model("Job", JobOthersSchema);
+const JobOther = mongoose.model("JobOther", JobOthersSchema);
 export default JobOther;

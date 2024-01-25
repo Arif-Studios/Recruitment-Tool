@@ -1,11 +1,18 @@
 import express from "express";
 import {
   addEducation,
+  addPortfolio,
   addProject,
+  addSkills,
   allUserEducation,
+  allUserPortfolio,
   allUserProject,
+  allUserSkill,
+  deleteSkills,
   login,
+  profileMe,
   register,
+  updateSkills,
 } from "../controllers/applicantController.js";
 
 const router = express.Router();
@@ -19,14 +26,13 @@ router.post("/addEdu", addEducation);
 router.post("/allUserProject", allUserProject);
 router.post("/addProject", addProject);
 
-router.post("/addPortfolio");
-router.post("/allUserPort");
+router.post("/addPortfolio", addPortfolio);
+router.post("/allUserPort", allUserPortfolio);
 
-router.post("/allUserSkill");
-router.post("/addSkills");
-
-router.post("/updateSkills");
-router.post("/deleteSkills");
-router.post("/profile/me");
+router.post("/allUserSkill", allUserSkill);
+router.post("/addSkills", addSkills);
+router.post("/updateSkills", updateSkills);
+router.post("/deleteSkills", deleteSkills);
+router.post("/profile/me", profileMe);
 
 export default router;

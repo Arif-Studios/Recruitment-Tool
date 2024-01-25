@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const ApplicationSchema = mongoose.Schema(
   {
-    userId: { type: String, require },
-    jobId: { type: String, require },
-    Appliname: { type: String, require },
-    cover_letter: { type: String, require },
-    availability: { type: String, require },
-    Assessment: { type: String, require },
+    userId: { type: String, required: true },
+    jobId: { type: String, required: true },
+    Appli_name: { type: String, required: true },
+    cover_letter: { type: String, required: true },
+    availability: { type: String, required: true },
+    Assessment: { type: String, required: true },
     status: { type: String, default: "Under Process" },
 
     postedBy: {
