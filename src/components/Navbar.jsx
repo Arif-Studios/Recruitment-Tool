@@ -81,7 +81,7 @@ export default function Navbar() {
                 <>
                   <Link
                     className="hover:border-b hover:border-b-2"
-                    to="/createJobApp"
+                    to="/createJob"
                   >
                     Create Job
                   </Link>

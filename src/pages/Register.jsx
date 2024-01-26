@@ -30,7 +30,9 @@ export default function Register() {
   return (
     <div className="w-full">
       <div className="flex flex-col justify-center items-center my-20">
-        <h1 className="text-2xl">Register to Job-Portal</h1>
+        <h1 className="text-2xl">
+          Register As a {itemSelect === "" ? "candidate" : itemSelect}{" "}
+        </h1>
 
         <form
           onSubmit={register}

@@ -17,7 +17,7 @@ import {
 
 const router = express.Router();
 
-router.get("/getAllJobs", getAllJob);
+router.get("/getAllJob", getAllJob);
 router.get("/job/:id", getSingleJob);
 
 router.post("/getMyjobPost", getMyJobPost);

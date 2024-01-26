@@ -13,7 +13,7 @@ app.use(cors());
 connectDB();
 
 //Routes
-app.use("/api/job/", jobRoutes);
+app.use("/api/jobs/", jobRoutes);
 app.use("/api/applicant/", applicantRoutes);
 
 const port = 5000;
