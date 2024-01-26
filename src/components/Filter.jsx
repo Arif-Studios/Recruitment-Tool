@@ -14,42 +14,37 @@ const Filter = () => {
   };
 
   return (
-    <div>
-      <div className="card price_filter">
-        <p className="text-start text-bold">Filter By Salary</p>
+    <div className="bg-white shadow-lg p-5">
+      <div className="">
+        <p className="text-lg font-bold">Filter By Salary</p>
         {checkValue.map((item, index) => (
-          <div className="form-check" key={index}>
+          <div className="flex items-center gap-2" key={index}>
             <input
-              className="form-check-input"
               type="checkbox"
               value={item}
               id={item.value}
               onChange={(e) => handleChange(e)}
             />
-            <label
-              className="form-check-label"
-              htmlFor="flexCheckDefault"
-              style={{ marginTop: "7px" }}
-            >
-              ₹{item}
+            <label htmlFor="flexCheckDefault" style={{ marginTop: "7px" }}>
+              {item} br
             </label>
           </div>
         ))}
       </div>
 
-      <div className="card mt-3 p-1">
-        <p className="text-start text-bold">Filter By Location</p>
+      <div className="mt-3 p-1">
+        <p className="font-bold text-lg">Filter By Location</p>
         <input
           value={searchKey}
           onChange={(e) => setSearchKey(e.target.value)}
           type="text"
           placeholder="location"
-          className="form-control"
+          className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent mr-2"
         />
 
         <button
           type="button"
-          className="btn btn-primary mt-1 ser_btn"
+          className="bg-orange-400 p-2 rounded-md items-end justify-end text-white"
           onClick={() => dispatch(getAllJobAction("Location", searchKey))}
         >
           Search
