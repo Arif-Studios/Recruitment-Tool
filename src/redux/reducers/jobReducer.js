@@ -110,7 +110,7 @@ export const getJobOtherByIdReducer = (state = {}, action) => {
   }
 };
 
-export const getJobSkillByIdReducer = (state = {}, action) => {
+export const getJobSkillByIdReducer = (state = [], action) => {
   switch (action.type) {
     case "GET_JOB_SKILL_BY_ID":
       return { ...state, loading: true };

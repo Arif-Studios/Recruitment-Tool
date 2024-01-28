@@ -25,7 +25,6 @@ export default function HomePage() {
         <div className="w-2/4">
           <Jobs jobs={jobs} />
         </div>
-        <div className="col-2"></div>
       </div>
     </div>
   );

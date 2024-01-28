@@ -62,3 +62,77 @@ export const getAllJobAction =
       });
     }
   };
+
+export const getJobByIdAction = (id) => async (dispatch) => {
+  dispatch({
+    type: "GET_JOB_BY_ID",
+  });
+  try {
+    const response = await axios.get(`/api/jobs/job/${id}`);
+    dispatch({
+      type: "GET_JOB_BY_ID_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_JOB_BY_ID_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getJobSkillByIdAction = (id) => async (dispatch) => {
+  dispatch({
+    type: "GET_JOBSKILL_BY_ID",
+  });
+  try {
+    const response = await axios.get(`/api/jobs/jobskill/${id}`);
+    dispatch({
+      type: "GET_JOB_SKILL_BY_ID_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_JOB_SKILL_BY_ID_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getJobAnotherByIdAction = (id) => async (dispatch) => {
+  dispatch({
+    type: "GET_JOB_OTHER_BY_ID",
+  });
+  try {
+    const response = await axios.get(`/api/jobs/jobanother/${id}`);
+    dispatch({
+      type: "GET_JOB_OTHER_BY_ID_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_JOB_OTHER_BY_ID_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getAllUserByJobIdAction = (id) => async (dispatch) => {
+  dispatch({
+    type: "USER_USER_BY_JOB_ID_REQUEST",
+  });
+
+  try {
+    const response = await axios.post("/api/jobs/getUserByjobId", { id });
+
+    dispatch({
+      type: "USER_USER_BY_JOB_ID_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "USER_USER_BY_JOB_ID_FAILED",
+      payload: error,
+    });
+  }
+};

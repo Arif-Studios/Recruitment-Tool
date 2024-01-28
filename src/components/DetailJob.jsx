@@ -1,0 +1,286 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllUserByJobIdAction,
+  getJobAnotherByIdAction,
+  getJobByIdAction,
+  getJobSkillByIdAction,
+} from "../redux/actions/jobActions";
+import { Link } from "react-router-dom";
+
+export default function DetailJob({ match }) {
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showComAddForm, setshowComAddForm] = useState(false);
+  const [skill_name, setSkillName] = useState("");
+  const [aboutcom, setaboutcom] = useState("");
+  const [numOfposi, setnumOfposi] = useState("");
+  const [benefits, setbenefits] = useState("");
+  const [addiInfo, setaddiInfo] = useState("");
+  const dispatch = useDispatch();
+
+  const userId = JSON.parse(localStorage.getItem("currentUser"))?._id;
+  const handleEditForm = () => setShowEditForm(false);
+  const handleComAddForm = () => setshowComAddForm(false);
+
+  const { job } = useSelector((state) => state.getJobByIdReducer);
+  const { jobanother } = useSelector((state) => state.getJobOtherByIdReducer);
+  const { jobskill } = useSelector((state) => state.getJobSkillByIdReducer);
+  const { appliList } = useSelector((state) => state.getUserbyjobIdReducer);
+  const item = job;
+
+  useEffect(() => {
+    dispatch(getJobByIdAction(match?.params.id));
+    dispatch(getJobSkillByIdAction(match?.params.id));
+    dispatch(getJobAnotherByIdAction(match?.params.id));
+    dispatch(getAllUserByJobIdAction(match?.params.id));
+  }, [dispatch, match?.params.id]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    let data = {
+      jobId: match.params.id,
+      uskill: skill_name,
+    };
+
+    dispatch(addSkillForJob(data));
+    setShowEditForm(false);
+    setSkillName("");
+  };
+
+  const onComInfoSubmit = (e) => {
+    e.preventDefault();
+    let data = {
+      aboutcom,
+      numOfposi,
+      benefits,
+      addiInfo,
+      jobId: match.params.id,
+    };
+    dispatch(addOtherInfoForJob(data));
+    setshowComAddForm(false);
+    console.log(data);
+  };
+
+  return (
+    <div>
+      <div className="row">
+        <div className="col-8 m-auto">
+          <h2>
+            {item && item.job_title} Work from home job/internship at{" "}
+            {item && item.comp_Name}
+          </h2>
+        </div>
+      </div>
+      <br />
+      <div className="col-8 m-auto">
+        <p>
+          {" "}
+          <b>Number Of Application: </b> {item && item.jobCount?.length}
+        </p>
+      </div>
+
+      <div className="row">
+        <div className="col-8 m-auto">
+          {item && (
+            <div key={item._id} className="card mb-2 p-3">
+              <h3>{item.job_title}</h3>
+              <p>{item.comp_Name}</p>
+              <p>Work From :{item.Work_From}</p>
+
+              <p>location:{item.location}</p>
+
+              <div className="row">
+                <div className="col-1"></div>
+                <div className="col-3">
+                  <p>start Date</p>
+                  <p>24 jan ,2023</p>
+                </div>
+                <div className="col-3">
+                  <p>Duration</p>
+                  <p>{item.job_duration}</p>
+                </div>
+                <div className="col-3">
+                  <p>Salary</p>
+                  <p>{item.salary}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <br />
+      <div className="row">
+        <div className="col-8 m-auto">
+          <h4>{item && item.comp_Name}</h4>
+          <p>{jobanother && jobanother[0] && jobanother[0].aboutcom}</p>
+        </div>
+      </div>
+      <br />
+      <div className="row">
+        <div className="col-8 m-auto">
+          <h3>Skill(s) required</h3>
+          {item && item.userId == userId && (
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowEditForm(true)}
+            >
+              Add Skill
+            </button>
+          )}
+
+          {jobskill &&
+            jobskill.map((item) => (
+              <div key={item._id}>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    marginRight: "15px",
+                    float: "left",
+                  }}
+                >
+                  {item.uskill}
+                </p>
+              </div>
+            ))}
+        </div>
+      </div>
+      <br />
+      <div className="row">
+        <div className="col-8 m-auto">
+          <h3>Who Can Apply</h3>
+          <p>1. are available for the work from home job/internship</p>
+          <p>2. have relevant skills and interests</p>
+          <p>
+            3. are available for duration of {item && item.jobduration} months
+          </p>
+        </div>
+      </div>
+      <br />
+      <div className="row">
+        <div className="col-8 m-auto">
+          <h3>Number of openings</h3>
+
+          <p> {jobanother && jobanother[0] && jobanother[0].numOfposi} </p>
+        </div>
+      </div>
+      <div className="row">
+        {item && item.userId !== userId && (
+          <div className="col-2 m-auto">
+            {item && item.jobCount?.includes(userId) ? (
+              <button className="btn btn-block">Already Applied</button>
+            ) : (
+              <Link to={`/apply/${match?.params.id}`}>
+                <button className="btn btn-success m-auto">Apply Now</button>
+              </Link>
+            )}
+          </div>
+        )}
+        {item && item.userId == userId && (
+          <div className="col-2 m-auto">
+            <button
+              className="btn btn-success m-auto"
+              onClick={() => setshowComAddForm(true)}
+            >
+              {" "}
+              Add More Infor
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <div>
+          <div>
+            <h1>Add A Skill For Job</h1>
+          </div>
+          <div>
+            <form onSubmit={onSubmit}>
+              <div>
+                <input
+                  required
+                  type="text"
+                  placeholder="Ex. javascript"
+                  className="form-control"
+                  value={skill_name}
+                  onChange={(e) => setSkillName(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group mt-2">
+                <button className="btn btn-primary" type="submit">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+          <br />
+          <br />
+        </div>
+      </div>
+      <div>
+        <div aria-labelledby="example-custom-modal-styling-title">
+          <h1>Add Info About Company</h1>
+
+          <div>
+            <form onSubmit={onComInfoSubmit}>
+              <div className="edu_form">
+                <input
+                  type="text"
+                  placeholder="About Company"
+                  className="form-control edr_class"
+                  value={aboutcom}
+                  onChange={(e) => setaboutcom(e.target.value)}
+                />
+              </div>
+
+              <div className="edu_form">
+                <input
+                  type="Number"
+                  placeholder="Number of Position"
+                  className="form-control edr_class"
+                  value={numOfposi}
+                  onChange={(e) => setnumOfposi(e.target.value)}
+                />
+              </div>
+
+              <div className="edu_form">
+                <input
+                  type="text"
+                  placeholder="Benefits from Company"
+                  className="form-control edr_class"
+                  value={benefits}
+                  onChange={(e) => setbenefits(e.target.value)}
+                />
+              </div>
+              <div className="edu_form">
+                <input
+                  type="text"
+                  placeholder="Additional Info"
+                  className="form-control edr_class"
+                  value={addiInfo}
+                  onChange={(e) => setaddiInfo(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group mt-2">
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  style={{
+                    borderRadius: "25px",
+                    height: "50px",
+                    width: "90px",
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+          <br />
+          <br />
+        </div>
+      </div>
+    </div>
+  );
+}

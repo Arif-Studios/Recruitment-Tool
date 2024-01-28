@@ -15,7 +15,7 @@ const Filter = () => {
 
   return (
     <div className="bg-white shadow-lg p-5">
-      <div className="">
+      <div>
         <p className="text-lg font-bold">Filter By Salary</p>
         {checkValue.map((item, index) => (
           <div className="flex items-center gap-2" key={index}>
