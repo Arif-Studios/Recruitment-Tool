@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import {
   getJobByIdAction,
@@ -12,6 +13,9 @@ import {
 } from "../redux/actions/jobActions";
 
 const DetailJob = ({ match }) => {
+  const { id } = useParams();
+  console.log(id);
+
   const [showEditForm, setShowEditForm] = useState(false);
   const [showComAddForm, setshowComAddForm] = useState(false);
   const [skill_name, setSkillName] = useState("");
@@ -22,11 +26,11 @@ const DetailJob = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getJobByIdAction(match?.params.id));
+    dispatch(getJobByIdAction(id));
     dispatch(getJobSkillByIdAction(match?.params.id));
     dispatch(getJobAnotherByIdAction(match?.params.id));
     dispatch(getAllUserByJobIdAction(match?.params.id));
-  }, [dispatch, match?.params.id]);
+  }, []);
   const userId = JSON.parse(localStorage.getItem("currentUser"))._id;
   const handleEditForm = () => setShowEditForm(false);
   const handleComAddForm = () => setshowComAddForm(false);
@@ -35,9 +39,9 @@ const DetailJob = ({ match }) => {
   const { jobanother } = useSelector((state) => state.getJobOtherByIdReducer);
   const { jobskill } = useSelector((state) => state.getJobSkillByIdReducer);
   const { appliList } = useSelector((state) => state.getUserbyjobIdReducer);
-  const item = job;
 
-  console.log(job);
+  const item = job.job;
+  console.log(jobanother);
 
   //  const ApplyBool = appliList && appliList.forEach(item =>{
   //   if(item.userId == userId && item.postId == match.params.id){
@@ -74,14 +78,12 @@ const DetailJob = ({ match }) => {
     console.log(data);
   };
 
-  console.log(item);
   return (
-    <div>
-      <div className="row">
-        <div className="col-8 m-auto">
-          <h2>
-            {item && item.job_title} Work from home job/internship at{" "}
-            {item && item.comp_Name}
+    <div className="flex flex-col justify-center">
+      <div>
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold text-center">
+            Detail about the Job
           </h2>
         </div>
       </div>
@@ -89,53 +91,71 @@ const DetailJob = ({ match }) => {
       <div className="col-8 m-auto">
         <p>
           {" "}
-          <b>Number Of Application: </b> {item && item.jobCount?.length}
+          <b>Number Of Application: </b> {item?.jobCount?.length}
         </p>
       </div>
 
-      <div className="row">
-        <div className="col-8 m-auto">
-          {item && (
-            <div key={item._id} className="card mb-2 p-3">
-              <h3>{item.job_title}</h3>
-              <p>{item.comp_Name}</p>
-              <p>Work From :{item.Work_From}</p>
+      <table className="w-full mt-6">
+        <thead>
+          <tr className="bg-orange-400 text-center text-xs font-semibold uppercase tracking-widest text-white">
+            <th className="px-5 py-3">Job Title</th>
+            <th className="px-5 py-3">Company Name</th>
+            <th className="px-5 py-3">Work From</th>
+            <th className="px-5 py-3">Location</th>
+            <th className="px-5 py-3">Duration</th>
+            <th className="px-5 py-3">Salary</th>
+          </tr>
+        </thead>
 
-              <p>location:{item.location}</p>
-
-              <div className="row">
-                <div className="col-1"></div>
-
-                <div className="col-3">
-                  <p>Duration</p>
-                  <p>{item.job_duration}</p>
-                </div>
-                <div className="col-3">
-                  <p>Salary</p>
-                  <p>{item.salary}</p>
+        <tbody className="text-gray-500 hover:bg-gray-100 transition-all duration-150 ease-in-out cursor-pointer">
+          <tr className="text-center">
+            <td className="border-b border-gray-200 px-5 py-5 text-sm">
+              <p className="whitespace-no-wrap text-center">
+                {item?.job_title}
+              </p>
+            </td>
+            <td className="border-b border-gray-200  px-5 py-5 text-sm">
+              <div className="flex items-center">
+                <div className="ml-3">
+                  <p className="whitespace-no-wrap text-center">
+                    {item?.comp_Name}
+                  </p>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <br />
-      <div className="row">
+            </td>
+            <td className="border-b border-gray-200  px-5 py-5 text-sm">
+              <p className="whitespace-no-wrap">{item?.Work_From}</p>
+            </td>
+
+            <td className="border-b border-gray-200  px-5 py-5 text-sm">
+              <p className="whitespace-no-wrap">{item?.location}</p>
+            </td>
+            <td className="border-b border-gray-200  px-5 py-5 text-sm">
+              <p className="whitespace-no-wrap">{item?.job_duration}</p>
+            </td>
+            <td className="border-b border-gray-200  px-5 py-5 text-sm">
+              <p className="whitespace-no-wrap">{item?.salary}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className="mt-5">
         <div className="col-8 m-auto">
-          <h4>{item && item.comp_Name}</h4>
+          <h4 className="text-xl font-bold">{item && item.comp_Name}</h4>
           <p>{jobanother && jobanother[0] && jobanother[0].aboutcom}</p>
         </div>
       </div>
-      <br />
+
       <div className="row">
         <div className="col-8 m-auto">
           <h3>Skill(s) required</h3>
-          {item && item.userId == userId && (
+          {item && item.userId !== userId && (
             <button
-              className="btn btn-primary"
+              className="bg-black p-5"
               onClick={() => setShowEditForm(true)}
             >
-              Add Skill
+              + Add Skill
             </button>
           )}
 

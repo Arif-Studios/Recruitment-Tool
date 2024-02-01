@@ -62,7 +62,7 @@ export const geJobAppliByuserIdReducer = (state = { myJob: [] }, action) => {
   }
 };
 
-export const getJobByIdReducer = (state = {}, action) => {
+export const getJobByIdReducer = (state = { job: [] }, action) => {
   switch (action.type) {
     case "GET_JOB_BY_ID":
       return { ...state, loading: true };

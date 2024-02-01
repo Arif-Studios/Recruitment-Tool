@@ -75,6 +75,7 @@ export const getJobByIdAction = (id) => async (dispatch) => {
       type: "GET_JOB_BY_ID_SUCCESS",
       payload: response.data,
     });
+    console.log(response.data);
   } catch (error) {
     dispatch({
       type: "GET_JOB_BY_ID_FAILED",

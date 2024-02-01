@@ -12,15 +12,27 @@ export const getAllJob = async (req, res) => {
   }
 };
 
-export const getSingleJob = (req, res) => {
-  Job.findById(req.params.id)
+export const getSingleJob = async (req, res) => {
+  // Job.findById(req.params.id)
 
-    .then((post) => {
-      res.json(post);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  //   .then((post) => {
+  //     res.json(post);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+
+  try {
+    const job = await Job.findById(req.params.id);
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    res.status(200).json({ job });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log("Error in getting job: ", error.message);
+  }
 };
 
 export const getMyJobPost = (req, res) => {

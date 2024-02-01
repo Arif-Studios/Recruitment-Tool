@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import Register from "./pages/Register";
 import LoginPage from "./pages/LoginPage";
 import CreateJob from "./pages/CreateJob";

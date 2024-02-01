@@ -136,7 +136,7 @@ const Skillscompoent = ({ match }) => {
         </Modal>
       </div>
 
-      <div>
+      {/* <div>
         {skills &&
           skills.map((item, index) => {
             return (
@@ -199,7 +199,7 @@ const Skillscompoent = ({ match }) => {
               </div>
             );
           })}
-      </div>
+      </div> */}
       <div>
         {/* <h3 style={{display:"flex",marginLeft:"20px"}}>Skills and endorsements</h3> */}
         <i className="fas  fa-plus" onClick={() => AddSkillHandler()}>

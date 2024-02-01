@@ -84,7 +84,7 @@ export const userEducations = (id) => async (dispatch) => {
       `http://localhost:5000/api/applicant/allUserEdu`,
       { id }
     );
-    console.log(response);
+
     dispatch({
       type: "USER_EDUCATIONS_SUCCESS",
       payload: response.data,
@@ -158,6 +158,7 @@ export const addASkill = (post) => async (dispatch) => {
       type: "ADD_SKILL_SUCCESS",
       payload: response.data,
     });
+    console.log(response.data);
   } catch (error) {
     dispatch({
       type: "ADD_SKILL_FAILED",
