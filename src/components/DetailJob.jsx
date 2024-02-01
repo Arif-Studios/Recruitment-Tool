@@ -14,7 +14,6 @@ import {
 
 const DetailJob = ({ match }) => {
   const { id } = useParams();
-  console.log(id);
 
   const [showEditForm, setShowEditForm] = useState(false);
   const [showComAddForm, setshowComAddForm] = useState(false);
@@ -27,9 +26,9 @@ const DetailJob = ({ match }) => {
 
   useEffect(() => {
     dispatch(getJobByIdAction(id));
-    dispatch(getJobSkillByIdAction(match?.params.id));
-    dispatch(getJobAnotherByIdAction(match?.params.id));
-    dispatch(getAllUserByJobIdAction(match?.params.id));
+    dispatch(getJobSkillByIdAction(id));
+    dispatch(getJobAnotherByIdAction(id));
+    dispatch(getAllUserByJobIdAction(id));
   }, []);
   const userId = JSON.parse(localStorage.getItem("currentUser"))._id;
   const handleEditForm = () => setShowEditForm(false);
@@ -41,7 +40,6 @@ const DetailJob = ({ match }) => {
   const { appliList } = useSelector((state) => state.getUserbyjobIdReducer);
 
   const item = job.job;
-  console.log(jobanother);
 
   //  const ApplyBool = appliList && appliList.forEach(item =>{
   //   if(item.userId == userId && item.postId == match.params.id){
@@ -55,7 +53,7 @@ const DetailJob = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     let data = {
-      jobId: match.params.id,
+      jobId: id,
       uskill: skill_name,
     };
 
@@ -71,11 +69,10 @@ const DetailJob = ({ match }) => {
       numOfposi,
       benefits,
       addiInfo,
-      jobId: match.params.id,
+      jobId: id,
     };
     dispatch(addOtherInfoForJob(data));
     setshowComAddForm(false);
-    console.log(data);
   };
 
   return (
@@ -140,7 +137,7 @@ const DetailJob = ({ match }) => {
         </tbody>
       </table>
 
-      <div className="mt-5">
+      <div className="my-5">
         <div className="col-8 m-auto">
           <h4 className="text-xl font-bold">{item && item.comp_Name}</h4>
           <p>{jobanother && jobanother[0] && jobanother[0].aboutcom}</p>
@@ -148,37 +145,32 @@ const DetailJob = ({ match }) => {
       </div>
 
       <div className="row">
-        <div className="col-8 m-auto">
+        <div className="flex flex-col gap-1">
           <h3>Skill(s) required</h3>
-          {item && item.userId !== userId && (
+
+          <div className="flex gap-2">
+            {" "}
+            {jobskill.map((item) => (
+              <div className="w-fit" key={item._id}>
+                <p className="bg-gray-200 p-2">{item.uskill}</p>
+              </div>
+            ))}
+          </div>
+
+          {item?.userId === userId && (
             <button
-              className="bg-black p-5"
+              className="bg-orange-500 p-2 text-white my-2 w-fit"
               onClick={() => setShowEditForm(true)}
             >
               + Add Skill
             </button>
           )}
-
-          {jobskill &&
-            jobskill.map((item) => (
-              <div key={item._id}>
-                <p
-                  style={{
-                    fontSize: "18px",
-                    marginRight: "15px",
-                    float: "left",
-                  }}
-                >
-                  {item.uskill}
-                </p>
-              </div>
-            ))}
         </div>
       </div>
-      <br />
-      <div className="row">
-        <div className="col-8 m-auto">
-          <h3>Who Can Apply</h3>
+
+      <div className="mt-4">
+        <div>
+          <h3 className="text-xl font-bold">Who Can Apply</h3>
           <p>1. are available for the work from home job/internship</p>
           <p>2. have relevant skills and interests</p>
           <p>
@@ -187,21 +179,32 @@ const DetailJob = ({ match }) => {
         </div>
       </div>
       <br />
-      <div className="row">
-        <div className="col-8 m-auto">
-          <h3>Number of openings</h3>
+      <div>
+        <div className="flex gap-2 items-center">
+          <h3 className="text-xl font-bold">Number of openings: </h3>
 
-          <p> {jobanother && jobanother[0] && jobanother[0].numOfposi} </p>
+          <span>
+            {" "}
+            {jobanother && jobanother[0] && jobanother[0].numOfposi}{" "}
+          </span>
         </div>
       </div>
-      <div className="row">
+
+      <div>
         {item && item.userId !== userId && (
-          <div className="col-2 m-auto">
+          <div>
             {item && item.jobCount?.includes(userId) ? (
-              <button className="btn btn-block">Already Applied</button>
+              <button
+                disabled
+                className="bg-orange-500 disabled:cursor-not-allowed p-2 text-white my-2 w-fit"
+              >
+                Already Applied
+              </button>
             ) : (
-              <Link to={`/apply/${match?.params.id}`}>
-                <button className="btn btn-success m-auto">Apply Now</button>
+              <Link to={`/apply/${id}`}>
+                <button className="bg-orange-500 p-2 text-white my-2 w-fit">
+                  Apply Now
+                </button>
               </Link>
             )}
           </div>
@@ -209,36 +212,48 @@ const DetailJob = ({ match }) => {
         {item && item.userId == userId && (
           <div className="col-2 m-auto">
             <button
-              className="btn btn-success m-auto"
+              className="bg-orange-500 p-2 text-white my-2 w-fit"
               onClick={() => setshowComAddForm(true)}
             >
               {" "}
-              Add More Infor
+              Add More Information
             </button>
           </div>
         )}
       </div>
 
       <div>
-        <Modal show={showEditForm} onHide={handleEditForm}>
+        <Modal
+          className="bg-white shadow-lg w-[500px] flex justify-center items-center mx-auto absolute top-[30%] left-[30%] p-6"
+          show={showEditForm}
+          onHide={handleEditForm}
+        >
           <Modal.Header closeButton>
-            <Modal.Title>Add A Skill For Job</Modal.Title>
+            <Modal.Title className="text-xl font-bold text-center">
+              Add A Skill For Job
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={onSubmit}>
+            <form
+              className="flex flex-col gap-3 justify-center items-center"
+              onSubmit={onSubmit}
+            >
               <div>
                 <input
                   required
                   type="text"
                   placeholder="Ex. javascript"
-                  className="form-control"
+                  className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                   value={skill_name}
                   onChange={(e) => setSkillName(e.target.value)}
                 />
               </div>
 
-              <div className="form-group mt-2">
-                <button className="btn btn-primary" type="submit">
+              <div>
+                <button
+                  className="bg-orange-400 text-white font-semibold rounded-md  px-2"
+                  type="submit"
+                >
                   Save
                 </button>
               </div>
@@ -248,63 +263,65 @@ const DetailJob = ({ match }) => {
           <br />
         </Modal>
       </div>
+
       <div>
         <Modal
+          className="bg-white shadow-lg w-[500px] flex justify-center items-center mx-auto absolute top-[30%] left-[30%] p-6"
           show={showComAddForm}
           onHide={handleComAddForm}
-          animation={false}
-          size="lg"
-          centered
-          dialogClassName="modalclass"
-          aria-labelledby="example-custom-modal-styling-title"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add Info About Company</Modal.Title>
+            <Modal.Title className="text-xl font-bold text-center">
+              Add Info About Company
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={onComInfoSubmit}>
-              <div className="edu_form">
+            <form
+              className="flex flex-col gap-3 justify-center items-center"
+              onSubmit={onComInfoSubmit}
+            >
+              <div>
                 <input
                   type="text"
                   placeholder="About Company"
-                  className="form-control edr_class"
+                  className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                   value={aboutcom}
                   onChange={(e) => setaboutcom(e.target.value)}
                 />
               </div>
 
-              <div className="edu_form">
+              <div>
                 <input
                   type="Number"
                   placeholder="Number of Position"
-                  className="form-control edr_class"
+                  className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                   value={numOfposi}
                   onChange={(e) => setnumOfposi(e.target.value)}
                 />
               </div>
 
-              <div className="edu_form">
+              <div>
                 <input
                   type="text"
                   placeholder="Benefits from Company"
-                  className="form-control edr_class"
+                  className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                   value={benefits}
                   onChange={(e) => setbenefits(e.target.value)}
                 />
               </div>
-              <div className="edu_form">
+              <div>
                 <input
                   type="text"
                   placeholder="Additional Info"
-                  className="form-control edr_class"
+                  className="transition-all duration-[300ms] ease-out rounded-lg  appearance-none border border-orange-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                   value={addiInfo}
                   onChange={(e) => setaddiInfo(e.target.value)}
                 />
               </div>
 
-              <div className="form-group mt-2">
+              <div>
                 <button
-                  className="btn btn-primary"
+                  className="bg-orange-400 text-white font-semibold rounded-md  px-2"
                   type="submit"
                   style={{
                     borderRadius: "25px",
