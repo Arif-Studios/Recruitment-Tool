@@ -29,7 +29,7 @@ router.post("/addProject", addProject);
 router.post("/addPortfolio", addPortfolio);
 router.post("/allUserPort", allUserPortfolio);
 
-router.post("/allUserSkill", allUserSkill);
+router.get("/allUserSkill", allUserSkill);
 router.post("/addSkills", addSkills);
 router.post("/updateSkills", updateSkills);
 router.post("/deleteSkills", deleteSkills);

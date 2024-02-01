@@ -68,7 +68,9 @@ export const getJobByIdAction = (id) => async (dispatch) => {
     type: "GET_JOB_BY_ID",
   });
   try {
-    const response = await axios.get(`/api/jobs/job/${id}`);
+    const response = await axios.get(
+      `http://localhost:5000/api/jobs/job/${id}`
+    );
     dispatch({
       type: "GET_JOB_BY_ID_SUCCESS",
       payload: response.data,
@@ -83,10 +85,12 @@ export const getJobByIdAction = (id) => async (dispatch) => {
 
 export const getJobSkillByIdAction = (id) => async (dispatch) => {
   dispatch({
-    type: "GET_JOBSKILL_BY_ID",
+    type: "GET_JOB_SKILL_BY_ID",
   });
   try {
-    const response = await axios.get(`/api/jobs/jobskill/${id}`);
+    const response = await axios.get(
+      `http://localhost:5000/api/jobs/jobskill/${id}`
+    );
     dispatch({
       type: "GET_JOB_SKILL_BY_ID_SUCCESS",
       payload: response.data,
@@ -104,7 +108,9 @@ export const getJobAnotherByIdAction = (id) => async (dispatch) => {
     type: "GET_JOB_OTHER_BY_ID",
   });
   try {
-    const response = await axios.get(`/api/jobs/jobanother/${id}`);
+    const response = await axios.get(
+      `http://localhost:5000/api/jobs/jobanother/${id}`
+    );
     dispatch({
       type: "GET_JOB_OTHER_BY_ID_SUCCESS",
       payload: response.data,
@@ -123,7 +129,10 @@ export const getAllUserByJobIdAction = (id) => async (dispatch) => {
   });
 
   try {
-    const response = await axios.post("/api/jobs/getUserByjobId", { id });
+    const response = await axios.post(
+      "http://localhost:5000/api/jobs/getUserByjobId",
+      { id }
+    );
 
     dispatch({
       type: "USER_USER_BY_JOB_ID_SUCCESS",
@@ -132,6 +141,52 @@ export const getAllUserByJobIdAction = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "USER_USER_BY_JOB_ID_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const addOtherInfoForJob = (post) => async (dispatch) => {
+  dispatch({
+    type: "ADD_JOB_INFO_REQUEST",
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/jobs/addjobinfo",
+      post
+    );
+
+    dispatch({
+      type: "ADD_JOBS_INFO_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_JOB_INFO_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const addSkillForJob = (post) => async (dispatch) => {
+  dispatch({
+    type: "ADD_JOB_SKILL_REQUEST",
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/jobs/addskill",
+      post
+    );
+
+    dispatch({
+      type: "ADD_JOB_SKILL_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_JOB_SKILL_FAILED",
       payload: error,
     });
   }

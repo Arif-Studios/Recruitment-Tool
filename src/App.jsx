@@ -5,6 +5,8 @@ import Register from "./pages/Register";
 import LoginPage from "./pages/LoginPage";
 import CreateJob from "./pages/CreateJob";
 import HomePage from "./pages/HomePage";
+import DetailJob from "./components/DetailJob";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/createJob" element={<CreateJob />} />
+          <Route path="/job/:id" element={<DetailJob />} />
+          <Route path="/profile/:id" exact element={<Profile />} />
         </Routes>
       </div>
     </div>

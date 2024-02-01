@@ -53,7 +53,7 @@ export const userEduReducer = (state = { userEduc: [] }, action) => {
         loading: true,
       };
     case "USER_EDUCATIONS_SUCCESS":
-      return { loading: false, success: true, userEdus: action.payload };
+      return { loading: false, success: true, userEduc: action.payload };
     case "ADD_EDUCATION_SUCCESS":
       return {
         loading: false,
@@ -71,13 +71,13 @@ export const userEduReducer = (state = { userEduc: [] }, action) => {
 
 export const userPortfolioReducer = (state = { userPort: [] }, action) => {
   switch (action.type) {
-    case "GET_USERSPORTFOLIO_REQUEST":
+    case "GET_USERS_PORTFOLIO_REQUEST":
       return {
         loading: true,
       };
-    case "GET_USERSPORTFOLIO_SUCCESS":
+    case "GET_USERS_PORTFOLIO_SUCCESS":
       return { loading: false, success: true, userPort: action.payload };
-    case "GET_USERSPORTFOLIO_FAILED":
+    case "GET_USERS_PORTFOLIO_FAILED":
       return { loading: false, error: action.payload };
 
     default:

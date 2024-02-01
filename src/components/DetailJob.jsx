@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import {
+  getJobByIdAction,
   getAllUserByJobIdAction,
   getJobAnotherByIdAction,
-  getJobByIdAction,
   getJobSkillByIdAction,
+  addSkillForJob,
+  addOtherInfoForJob,
 } from "../redux/actions/jobActions";
-import { Link } from "react-router-dom";
 
-export default function DetailJob({ match }) {
+const DetailJob = ({ match }) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showComAddForm, setshowComAddForm] = useState(false);
   const [skill_name, setSkillName] = useState("");
@@ -18,7 +21,13 @@ export default function DetailJob({ match }) {
   const [addiInfo, setaddiInfo] = useState("");
   const dispatch = useDispatch();
 
-  const userId = JSON.parse(localStorage.getItem("currentUser"))?._id;
+  useEffect(() => {
+    dispatch(getJobByIdAction(match?.params.id));
+    dispatch(getJobSkillByIdAction(match?.params.id));
+    dispatch(getJobAnotherByIdAction(match?.params.id));
+    dispatch(getAllUserByJobIdAction(match?.params.id));
+  }, [dispatch, match?.params.id]);
+  const userId = JSON.parse(localStorage.getItem("currentUser"))._id;
   const handleEditForm = () => setShowEditForm(false);
   const handleComAddForm = () => setshowComAddForm(false);
 
@@ -28,12 +37,16 @@ export default function DetailJob({ match }) {
   const { appliList } = useSelector((state) => state.getUserbyjobIdReducer);
   const item = job;
 
-  useEffect(() => {
-    dispatch(getJobByIdAction(match?.params.id));
-    dispatch(getJobSkillByIdAction(match?.params.id));
-    dispatch(getJobAnotherByIdAction(match?.params.id));
-    dispatch(getAllUserByJobIdAction(match?.params.id));
-  }, [dispatch, match?.params.id]);
+  console.log(job);
+
+  //  const ApplyBool = appliList && appliList.forEach(item =>{
+  //   if(item.userId == userId && item.postId == match.params.id){
+  //     return true
+  //   }
+  //   return false
+  //  })
+
+  //  console.log(ApplyBool)
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -61,6 +74,7 @@ export default function DetailJob({ match }) {
     console.log(data);
   };
 
+  console.log(item);
   return (
     <div>
       <div className="row">
@@ -91,10 +105,7 @@ export default function DetailJob({ match }) {
 
               <div className="row">
                 <div className="col-1"></div>
-                <div className="col-3">
-                  <p>start Date</p>
-                  <p>24 jan ,2023</p>
-                </div>
+
                 <div className="col-3">
                   <p>Duration</p>
                   <p>{item.job_duration}</p>
@@ -151,7 +162,7 @@ export default function DetailJob({ match }) {
           <p>1. are available for the work from home job/internship</p>
           <p>2. have relevant skills and interests</p>
           <p>
-            3. are available for duration of {item && item.jobduration} months
+            3. are available for duration of {item && item.job_duration} months
           </p>
         </div>
       </div>
@@ -189,11 +200,11 @@ export default function DetailJob({ match }) {
       </div>
 
       <div>
-        <div>
-          <div>
-            <h1>Add A Skill For Job</h1>
-          </div>
-          <div>
+        <Modal show={showEditForm} onHide={handleEditForm}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add A Skill For Job</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <form onSubmit={onSubmit}>
               <div>
                 <input
@@ -212,16 +223,25 @@ export default function DetailJob({ match }) {
                 </button>
               </div>
             </form>
-          </div>
+          </Modal.Body>
           <br />
           <br />
-        </div>
+        </Modal>
       </div>
       <div>
-        <div aria-labelledby="example-custom-modal-styling-title">
-          <h1>Add Info About Company</h1>
-
-          <div>
+        <Modal
+          show={showComAddForm}
+          onHide={handleComAddForm}
+          animation={false}
+          size="lg"
+          centered
+          dialogClassName="modalclass"
+          aria-labelledby="example-custom-modal-styling-title"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add Info About Company</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <form onSubmit={onComInfoSubmit}>
               <div className="edu_form">
                 <input
@@ -276,11 +296,13 @@ export default function DetailJob({ match }) {
                 </button>
               </div>
             </form>
-          </div>
+          </Modal.Body>
           <br />
           <br />
-        </div>
+        </Modal>
       </div>
     </div>
   );
-}
+};
+
+export default DetailJob;
