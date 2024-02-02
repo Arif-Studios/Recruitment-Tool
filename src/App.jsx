@@ -1,12 +1,14 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import LoginPage from "./pages/LoginPage";
 import CreateJob from "./pages/CreateJob";
 import HomePage from "./pages/HomePage";
 import DetailJob from "./components/DetailJob";
 import Profile from "./pages/Profile";
+import JobApply from "./pages/JobApply";
+import UserApplication from "./pages/UserApplication";
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/createJob" element={<CreateJob />} />
           <Route path="/job/:id" element={<DetailJob />} />
           <Route path="/profile/:id" exact element={<Profile />} />
+          <Route path="/apply/:id" exact element={<JobApply />} />
+          <Route path="/myapplication" exact element={<UserApplication />} />
         </Routes>
       </div>
     </div>

@@ -10,12 +10,13 @@ import Education from "../components/Education";
 import Skillscompoent from "../components/Skills";
 import Project from "../components/Project";
 import Portfolio from "../components/Portfolio";
+import { useParams } from "react-router-dom";
 
-const Profile = ({ match }) => {
+const Profile = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const id = match?.params.id;
     if (id) {
       dispatch(userProfileAction(id));
       dispatch(userEducations(id));

@@ -9,7 +9,7 @@ import {
 } from "../redux/actions/userAction";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
-const Skillscompoent = ({ match }) => {
+const Skillscompoent = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [skill_name, setSkillName] = useState("");
   const [itemSelect, setItemSelect] = useState("");
@@ -22,9 +22,9 @@ const Skillscompoent = ({ match }) => {
   const { skills } = useSelector((state) => state.userSkillReducer);
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("currentUser"))._id;
-    if (id) {
-      dispatch(userSkills(id));
+    const userId = JSON.parse(localStorage.getItem("currentUser"))._id;
+    if (userId) {
+      dispatch(userSkills(userId));
     }
   }, [deleteItem, dispatch]);
 

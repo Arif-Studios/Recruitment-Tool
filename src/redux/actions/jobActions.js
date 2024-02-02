@@ -75,7 +75,6 @@ export const getJobByIdAction = (id) => async (dispatch) => {
       type: "GET_JOB_BY_ID_SUCCESS",
       payload: response.data,
     });
-    console.log(response.data);
   } catch (error) {
     dispatch({
       type: "GET_JOB_BY_ID_FAILED",
@@ -188,6 +187,52 @@ export const addSkillForJob = (post) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_JOB_SKILL_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const applyForJobAction = (user) => async (dispatch) => {
+  dispatch({
+    type: "USER_APPLY_JOB_REGISTER_REQUEST",
+  });
+
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/jobs/applyjob",
+      user
+    );
+    console.log(res);
+    dispatch({
+      type: "USER_APPLY_JOB_REGISTER_SUCCESS",
+    });
+  } catch (error) {
+    dispatch({
+      type: "USER_APPLY_JOB_REGISTER_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getAllJobAppliByuserId = (id) => async (dispatch) => {
+  dispatch({
+    type: "USER_JOB_BY_USER_ID_REQUEST",
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/jobs/getJobAppliByuserId",
+      { id }
+    );
+
+    dispatch({
+      type: "USER_JOB_BY_USER_ID_SUCCESS",
+      payload: response.data,
+    });
+    console.log(response.data);
+  } catch (error) {
+    dispatch({
+      type: "USER_JOB_BY_USER_ID_FAILED",
       payload: error,
     });
   }

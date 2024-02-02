@@ -13,15 +13,6 @@ export const getAllJob = async (req, res) => {
 };
 
 export const getSingleJob = async (req, res) => {
-  // Job.findById(req.params.id)
-
-  //   .then((post) => {
-  //     res.json(post);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
   try {
     const job = await Job.findById(req.params.id);
 
@@ -57,15 +48,17 @@ export const getUserByJobId = (req, res) => {
     });
 };
 
-export const getJobAppliById = (req, res) => {
-  Application.find({ userId: req.body.id })
-
-    .then((post) => {
-      res.json(post);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+export const getJobAppliById = async (req, res) => {
+  try {
+    const JobApp = await Application.find({ userId: req.body._id });
+    if (!JobApp) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+    res.status(200).json({ JobApp });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log("Error in getting job application: ", error.message);
+  }
 };
 
 export const applyJob = async (req, res) => {
