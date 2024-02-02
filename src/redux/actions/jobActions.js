@@ -224,15 +224,34 @@ export const getAllJobAppliByuserId = (id) => async (dispatch) => {
       "http://localhost:5000/api/jobs/getJobAppliByuserId",
       { id }
     );
-    console.log(response.data);
+
     dispatch({
       type: "USER_JOB_BY_USER_ID_SUCCESS",
       payload: response.data,
     });
-    console.log(response.data);
   } catch (error) {
     dispatch({
       type: "USER_JOB_BY_USER_ID_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getApplicaByIdAction = (id) => async (dispatch) => {
+  dispatch({
+    type: "GET_APPLICATION_BY_ID",
+  });
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/jobs/application/${id}`
+    );
+    dispatch({
+      type: "GET_APPLICATION_BY_ID_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_APPLICATION_BY_ID_FAILED",
       payload: error,
     });
   }

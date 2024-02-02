@@ -9,6 +9,7 @@ import DetailJob from "./components/DetailJob";
 import Profile from "./pages/Profile";
 import JobApply from "./pages/JobApply";
 import UserApplication from "./pages/UserApplication";
+import AppJobDetail from "./pages/AppJobDetail";
 
 export default function App() {
   return (
@@ -25,6 +26,11 @@ export default function App() {
           <Route path="/profile/:id" exact element={<Profile />} />
           <Route path="/apply/:id" exact element={<JobApply />} />
           <Route path="/myapplication" exact element={<UserApplication />} />
+          <Route
+            path="/myapplication/:appId/job/:jobid"
+            exact
+            element={<AppJobDetail />}
+          />
         </Routes>
       </div>
     </div>

@@ -20,6 +20,7 @@ import {
   getJobSkillByIdReducer,
   getUserbyjobIdReducer,
   getJobAppliByUserIdReducer,
+  getApplicationByIdReducer,
 } from "./reducers/jobReducer";
 
 const rootReducer = combineReducers({
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   getJobSkillByIdReducer,
   getUserbyjobIdReducer,
   getJobAppliByUserIdReducer,
+  getApplicationByIdReducer,
 });
 
 const currentUser = localStorage.getItem("currentUser")
