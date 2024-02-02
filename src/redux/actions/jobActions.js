@@ -224,7 +224,7 @@ export const getAllJobAppliByuserId = (id) => async (dispatch) => {
       "http://localhost:5000/api/jobs/getJobAppliByuserId",
       { id }
     );
-
+    console.log(response.data);
     dispatch({
       type: "USER_JOB_BY_USER_ID_SUCCESS",
       payload: response.data,

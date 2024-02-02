@@ -50,7 +50,7 @@ export const getUserByJobId = (req, res) => {
 
 export const getJobAppliById = async (req, res) => {
   try {
-    const JobApp = await Application.find({ userId: req.body._id });
+    const JobApp = await Application.find({ userId: req.body.id });
     if (!JobApp) {
       return res.status(404).json({ message: "Application not found" });
     }
