@@ -61,7 +61,7 @@ export const userProfileAction = (id) => async (dispatch) => {
       `http://localhost:5000/api/applicant/profile/me`,
       { id }
     );
-    console.log(response);
+
     dispatch({
       type: "USER_PROFILE_SUCCESS",
       payload: response.data,
@@ -158,7 +158,6 @@ export const addASkill = (post) => async (dispatch) => {
       type: "ADD_SKILL_SUCCESS",
       payload: response.data,
     });
-    console.log(response.data);
   } catch (error) {
     dispatch({
       type: "ADD_SKILL_FAILED",
@@ -315,6 +314,29 @@ export const getAllUserPortfolio = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "GET_USERS_PORTFOLIO_FAILED",
+      payload: error,
+    });
+  }
+};
+
+export const getAlljobPostofUser = (id) => async (dispatch) => {
+  dispatch({
+    type: "USER_USER_JOB_POST_REQUEST",
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/jobs/getMyjobPost",
+      { id }
+    );
+
+    dispatch({
+      type: "USER_USER_JOB_POST_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "USER_USER_JOB_POST_FAILED",
       payload: error,
     });
   }

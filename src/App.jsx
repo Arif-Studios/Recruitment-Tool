@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import JobApply from "./pages/JobApply";
 import UserApplication from "./pages/UserApplication";
 import AppJobDetail from "./pages/AppJobDetail";
+import JobView from "./pages/JobView";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
             exact
             element={<AppJobDetail />}
           />
+          <Route path="/jobView" exact element={<JobView />} />
         </Routes>
       </div>
     </div>

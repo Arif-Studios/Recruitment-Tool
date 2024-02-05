@@ -1,5 +1,4 @@
 export const getAllJobReducer = (state = { jobs: [] }, action) => {
-  console.log("working");
   switch (action.type) {
     case "GET_JOBS_REQUEST":
       return { ...state, loading: true };
