@@ -39,7 +39,9 @@ export default function Navbar() {
   return (
     <div>
       <div className="px-10 py-4 flex justify-between items-center bg-orange-400 w-full text-white">
-        <h1 className="text-xl font-semibold">Job-Portal</h1>
+        <Link to={"/"} className="text-xl font-semibold">
+          Arif-Jobs
+        </Link>
 
         <div ref={modalRef} className="cursor-pointer">
           <h3 onClick={() => setToggle(!toggle)}> {name != null && name}</h3>

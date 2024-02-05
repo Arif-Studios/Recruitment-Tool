@@ -256,3 +256,24 @@ export const getApplicaByIdAction = (id) => async (dispatch) => {
     });
   }
 };
+
+export const getAppReqStatusByIdAction = (obj) => async (dispatch) => {
+  dispatch({
+    type: "GET_APPSTATUS_BY_ID",
+  });
+  try {
+    const response = await axios.post(
+      `http://localhost:5000/api/jobs/appReqRe`,
+      obj
+    );
+    dispatch({
+      type: "GET_APPSTATUS_SUCCESS",
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "GET_APPSTATUS_FAILED",
+      payload: error,
+    });
+  }
+};
